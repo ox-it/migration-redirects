@@ -21,6 +21,7 @@ RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/about/contact [R=301]
 RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about/contact [R=301]
 RewriteRule ^help/request.xml$ http://www.it.ox.ac.uk/about/contact [R=301]
 RewriteRule ^itlp/courses/$ http://www.it.ox.ac.uk/do/trainingandfacilities/itlpcourses [R=301]
+RewriteRule ^publicity/$ http://www.it.ox.ac.uk/news-events [R=301]
 
 # NSMS
 RewriteRule ^nsms/$ http://www.it.ox.ac.uk/nsms [R=301]
@@ -45,6 +46,29 @@ RewriteRule ^nsms/customers/$ http://www.it.ox.ac.uk/nsms/customers [R=301]
 RewriteRule ^nsms/no-perms.xml$ - [G]
 RewriteRule ^nsms/services/.*-old.xml$ - [G]
 RewriteRule ^nsms/services/.*thanks.xml$ - [G]
+
+
+# World War I Literature site (handle mistypings of one and el)
+RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [R=301,L]
+
+# Courses (copied from previous www.oucs .htaccess, but tweaked to remove /cgi-bin/ where possible)
+RewriteRule ^itlp/courses/oup/catalogue$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=catalogue&oup=1 [R=301,L]
+RewriteRule ^itlp/courses/oup/atoz$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=atoz&oup=1 [R=301,L]
+RewriteRule ^itlp/courses/oup/summary$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=summary&oup=1 [R=301,L]
+RewriteRule ^itlp/courses/oup/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?code=$1&oup=1 [R=301,L]
+RewriteRule ^itlp/courses/catalogue$ http://courses.it.ox.ac.uk/catalogue [R=301,L]
+RewriteRule ^itlp/courses/atoz$ http://courses.it.ox.ac.uk/atoz [R=301,L]
+RewriteRule ^itlp/courses/summary$ http://courses.it.ox.ac.uk/summary [R=301,L]
+RewriteRule ^itlp/courses/future$ http://courses.it.ox.ac.uk/future [R=301,L]
+RewriteRule ^itlp/courses/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=301,L]
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^itlp/courses/showcart.pl$ http://courses.it.ox.ac.uk/showcart?%1 [R=301,L,NE,QSA]
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^itlp/courses/mybook.pl$ http://courses.it.ox.ac.uk/mybook?%1 [R=301,L,NE,QSA]
+RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?%1 [R=301,L]
+# all the ITLP rewrites - pages
+RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtobook.xml%1 [R=301,L]
+
 
 
 # TODO: thamessuite down
