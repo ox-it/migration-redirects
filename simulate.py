@@ -9,6 +9,7 @@ import csv
 import enum
 import json
 import re
+import sys
 from urlparse import urljoin, urlparse, urlunparse
 
 import requests
@@ -83,8 +84,10 @@ fix_domains.known_good_patterns = map(re.compile, (
 
 def get_paths(logfile):
     reader = csv.reader(logfile, delimiter=' ', doublequote=False, escapechar='\\')
-    for row in reader:
-        if row[4] == '404':
+    for i, row in enumerate(reader):
+        if (i % 1000000) == 0:
+            sys.stderr.write("Line {0}\n".format(i))
+        if row[4] in ('404', '400'):
             continue
         req = row[3]
         try:
@@ -111,7 +114,7 @@ if __name__ == '__main__':
         }
 
     try:
-        seen = set()
+        seen, request_count = set(), 0
         for path in get_paths(sys.stdin):
             if path in seen:
                 continue
@@ -122,8 +125,15 @@ if __name__ == '__main__':
                 try:
                     status = results['responses'][status_or_target]
                 except KeyError:
-                    response = requests.head(status_or_target)
+                    try:
+                        response = requests.head(status_or_target)
+                    except Exception:
+                        sys.stderr.write("Error HEADing {0}\n".format(status_or_target))
+                        raise
                     status = results['responses'][status_or_target] = response.status_code
+                    request_count += 1
+                    if (request_count % 100) == 0:
+                        sys.stderr.write("Request {0}\n".format(request_count))
                 status = Codes(status)
             else:
                 status = status_or_target
