@@ -4,19 +4,36 @@ RewriteBase /
 # OUCS homepage → IT Services homepage
 RewriteRule ^(index\.xml)?$ http://www.it.ox.ac.uk/ [R=302,L]
 
+# Existing redirects people still rely on
+RewriteRule ^help/unhappy.xsp$ help/request.xml
+RewriteRule ^email/mobiles/(.*) nexus/mobile/index.xml
+RewriteRule ^email/config/(.*) nexus/email/clients.xml
+RewriteRule ^troubles(.*) helpcentre/troubleshooting$1
+RewriteRule ^learning/selfpaced-training.xml itlp/ecdl_basic.xml
+RewriteRule ^learning/(.*) itlp/
+RewriteRule ^courses/$ itlp/
+RewriteRule ^courses$ itlp/
+RewriteRule ^courses/(.*) itlp/courses/$1
+RewriteRule ^ecdl(.*) itlp/ecdl_gen.xml
+RewriteRule ^network/ip.xml network/addresses/
+
+
+
 # Some URL normalization (remove page fragments; strip /index.xml)
 RewriteRule ^(.+)\.xml.ID=.*$ $1.xml
+RewriteRule ^((.*/)?)([^./]+)$ $1$3/
 RewriteRule ^(.+)/index\.xml$ $1/
 
 RewriteRule ^about/$ http://www.it.ox.ac.uk/about [R=302,L]
+RewriteRule ^about/mission.xml$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^about/travel\.xml$ http://www.it.ox.ac.uk/about/offices [R=302,L]
 RewriteRule ^jobs/$ http://www.it.ox.ac.uk/about/jobs [R=302,L]
 
 # These are in order of popularity (by non-bot hits)
-RewriteRule ^nexus/email/$ http://www.it.ox.ac.uk/want/getstarted/email [R=302,L]
-RewriteRule ^webauth/oxfordusername$ http://www.it.ox.ac.uk/want/getstarted/account [R=302,L]
+RewriteRule ^nexus/email/$ http://www.it.ox.ac.uk/want/get-started/email [R=302,L]
+RewriteRule ^webauth/oxfordusername$ http://www.it.ox.ac.uk/want/get-started/account [R=302,L]
 RewriteRule ^help/$ http://www.it.ox.ac.uk/want/help [R=302,L]
-RewriteRule ^welcometoit/$ http://www.it.ox.ac.uk/want/getstarted [R=302,L]
+RewriteRule ^welcometoit/.*$ http://www.it.ox.ac.uk/want/get-started [R=302,L]
 RewriteRule ^its3/$ http://www.it.ox.ac.uk/its3 [R=302,L]
 RewriteRule ^shop/$ http://www.it.ox.ac.uk/want/shop [R=302,L]
 # /itlp ?
@@ -55,6 +72,8 @@ RewriteRule ^nsms/services/.*thanks.xml$ - [G]
 RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [R=302,L]
 
 # Courses (copied from previous www.oucs .htaccess, but tweaked to remove /cgi-bin/ where possible)
+RewriteRule ^courses/(.*)$ itlp/$1
+RewriteRule ^itlp/$ http://courses.it.ox.ac.uk/ [R=302,L]
 RewriteRule ^itlp/courses/oup/catalogue$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=catalogue&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/oup/atoz$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=atoz&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/oup/summary$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=summary&oup=1 [R=302,L]
@@ -72,12 +91,44 @@ RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?%1 [R=
 # all the ITLP rewrites - pages
 RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtobook.xml%1 [R=302,L]
 
+# OxPoints, starting with stuff we know we've gotten rid of
+RewriteRule ^oxpoints/(oxpoints|oxworld).xml$ - [G]
+RewriteRule ^oxpoints/javascript.xml$ - [G]
+RewriteRule ^oxpoints/olismapall.user.js$ - [G]
+RewriteRule ^oxpoints/maps_api_v[23].html$ - [G]
+RewriteRule ^oxpoints/autosuggest-example.html$ - [G]
+RewriteRule ^oxpoints/demo/.*$ - [G]
+RewriteRule ^oxpoints/(balliol|colleges|libraries)-demo.html$ - [G]
+RewriteRule ^oxpoints/images/(offices|counsel|collegepictures|appsoc|bwcrests)/(.*)$ - [G]
+# And these things have been moved to active.oucs
+RewriteRule ^oxpoints/(autoSuggest.css|jquery.autoSuggest.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
+RewriteRule ^oxpoints/(oxpointsMap(_v3)?.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
+RewriteRule ^oxpoints/images/(icons|typeicons)/(.*)$ http://active.oucs.ox.ac.uk/oxpoints/images/$1/$2 [R=302,L]
+
 
 
 # TODO: thamessuite down
 
 
 # Catch-alls for the help site
-RewriteRule ^(.+)\.xml(.ID=.*)?$ http://help.it.ox.ac.uk/$1 [R=307]
-RewriteRule ^(.+)/$ http://help.it.ox.ac.uk/$1/index [R=307]
+RewriteRule ^(.+)\.xml(.ID=.*)?$ http://help.it.ox.ac.uk/$1 [R=307,L]
+RewriteRule ^(.+)/$ http://help.it.ox.ac.uk/$1/index [R=307,L]
 
+# "images/" has been removed from names of files
+RewriteRule (^|.*/)images/(.*)$ $1$2
+
+# Resources moved to the help site
+RewriteRule ^([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1.$2 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1_$2.$3 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1_$2_$3.$4 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1_$2_$3_$4.$5 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1_$2_$3_$4_$5.$6 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1_$2_$3_$4_$5_$6.$7 [R=302,L]
+
+# Images moved to the help site
+RewriteRule ^([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1.$2 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2.$3 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3.$4 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3_$4.$5 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3_$4_$5.$6 [R=302,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3_$4_$5_$6.$7 [R=302,L]
