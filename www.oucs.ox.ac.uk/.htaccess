@@ -18,11 +18,11 @@ RewriteRule ^ecdl(.*) itlp/ecdl_gen.xml
 RewriteRule ^network/ip.xml network/addresses/
 
 
-
 # Some URL normalization (remove page fragments; strip /index.xml)
 RewriteRule ^(.+)\.xml.ID=.*$ $1.xml
 RewriteRule ^((.*/)?)([^./]+)$ $1$3/
 RewriteRule ^(.+)/index\.xml$ $1/
+RewriteRule ^(.+)//(.*) $1/$2
 
 RewriteRule ^about/$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^about/mission.xml$ http://www.it.ox.ac.uk/about [R=302,L]
@@ -31,6 +31,7 @@ RewriteRule ^jobs/$ http://www.it.ox.ac.uk/about/jobs [R=302,L]
 
 # These are in order of popularity (by non-bot hits)
 RewriteRule ^nexus/email/$ http://www.it.ox.ac.uk/want/get-started/email [R=302,L]
+RewriteRule ^oxford/username$ http://www.it.ox.ac.uk/want/get-started/account [R=302,L]
 RewriteRule ^webauth/oxfordusername$ http://www.it.ox.ac.uk/want/get-started/account [R=302,L]
 RewriteRule ^help/$ http://www.it.ox.ac.uk/want/help [R=302,L]
 RewriteRule ^welcometoit/.*$ http://www.it.ox.ac.uk/want/get-started [R=302,L]
@@ -50,14 +51,14 @@ RewriteRule ^nsms/services/$ http://www.it.ox.ac.uk/nsms [R=302,L]
 RewriteRule ^nsms/services/webhosting.xml$ http://www.it.ox.ac.uk/nsms/webhosting [R=302,L]
 RewriteRule ^nsms/services/vm.xml$ http://www.it.ox.ac.uk/nsms/privatecloud [R=302,L]
 RewriteRule ^nsms/services/virtserv.xml$ http://www.it.ox.ac.uk/nsms/privatecloud [R=302,L]
-RewriteRule ^nsms/services/server.xml$ http://www.it.ox.ac.uk/nsms/servermanagement [R=302,L]
+RewriteRule ^nsms/services/server.xml$ http://www.it.ox.ac.uk/nsms/server-management [R=302,L]
 RewriteRule ^nsms/services/firewall.xml$ http://www.it.ox.ac.uk/nsms/firewall [R=302,L]
-RewriteRule ^nsms/services/workstation.xml$ http://www.it.ox.ac.uk/nsms/workstationmanagement [R=302,L]
-RewriteRule ^nsms/services/vm4rentform.xml$ http://www.it.ox.ac.uk/nsms/privatecloud [R=302,L]
-RewriteRule ^nsms/services/mmp/$ http://www.it.ox.ac.uk/nsms/orchard [R=302,L]
+RewriteRule ^nsms/services/workstation.xml$ http://www.it.ox.ac.uk/nsms/workstation-management [R=302,L]
+RewriteRule ^nsms/services/vm4rentform.xml$ http://www.it.ox.ac.uk/nsms/private-cloud [R=302,L]
+RewriteRule ^nsms/services/mmp/ http://www.it.ox.ac.uk/nsms/orchard [R=302,L]
 RewriteRule ^nsms/services/mmp.xml$ http://www.it.ox.ac.uk/nsms/orchard [R=302,L]
 RewriteRule ^nsms/services/osx.xml$ http://www.it.ox.ac.uk/nsms/orchard [R=302,L]
-RewriteRule ^nsms/services/rt.xml$ http://www.it.ox.ac.uk/nsms/requesttracker [R=302,L]
+RewriteRule ^nsms/services/rt.xml$ http://www.it.ox.ac.uk/nsms/request-tracker [R=302,L]
 RewriteRule ^nsms/services/auditing.xml$ http://www.it.ox.ac.uk/nsms/consultancy [R=302,L]
 RewriteRule ^nsms/contact/(index|contact).(xml|xsp)$ http://www.it.ox.ac.uk/nsms [R=302,L]
 # nsms/services/purchasing.xml
@@ -73,6 +74,8 @@ RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [R=302,L]
 
 # Courses (copied from previous www.oucs .htaccess, but tweaked to remove /cgi-bin/ where possible)
 RewriteRule ^courses/(.*)$ itlp/$1
+RewriteRule ^oup/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=302,L]
+RewriteRule ^oup http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=summary&oup=1 [R=302,L]
 RewriteRule ^itlp/$ http://courses.it.ox.ac.uk/ [R=302,L]
 RewriteRule ^itlp/courses/oup/catalogue$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=catalogue&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/oup/atoz$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=atoz&oup=1 [R=302,L]
@@ -103,7 +106,7 @@ RewriteRule ^oxpoints/images/(offices|counsel|collegepictures|appsoc|bwcrests)/(
 # And these things have been moved to active.oucs
 RewriteRule ^oxpoints/(autoSuggest.css|jquery.autoSuggest.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
 RewriteRule ^oxpoints/(oxpointsMap(_v3)?.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
-RewriteRule ^oxpoints/images/(icons|typeicons)/(.*)$ http://active.oucs.ox.ac.uk/oxpoints/images/$1/$2 [R=302,L]
+RewriteRule ^oxpoints/images/(icons|typeicons|typeicons2)/(.*)$ http://active.oucs.ox.ac.uk/oxpoints/images/$1/$2 [R=302,L]
 
 
 
