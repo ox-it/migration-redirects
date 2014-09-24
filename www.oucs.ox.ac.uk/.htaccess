@@ -40,7 +40,7 @@ RewriteRule ^shop/$ http://www.it.ox.ac.uk/want/shop [R=302,L]
 # /itlp ?
 RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/about/contact [R=302,L]
 RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about/contact [R=302,L]
-RewriteRule ^help/request.xml$ http://www.it.ox.ac.uk/about/contact [R=302,L]
+RewriteRule ^help/request.xml$ http://help.it.ox.ac.uk/help/request [R=302,L]
 RewriteRule ^itlp/courses/$ http://www.it.ox.ac.uk/do/trainingandfacilities/itlpcourses [R=302,L]
 RewriteRule ^publicity/$ http://www.it.ox.ac.uk/news-events [R=302,L]
 
