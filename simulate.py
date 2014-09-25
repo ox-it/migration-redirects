@@ -33,6 +33,8 @@ def parse_htaccess(htaccess):
         target = line[2]
         for i in range(1, 10):
             target = target.replace('${0}'.format(i), '{{{0}}}'.format(i-1))
+        if target.startswith('"') and target.endswith('"'):
+            target = target[1:-1]
         rewrite = {'pattern': re.compile(line[1]),
                    'target': target}
         if len(line) > 3:
@@ -45,7 +47,7 @@ def parse_htaccess(htaccess):
         rewrites.append(rewrite)
     return rewrites
 
-def apply_rewrites(rewrites, url):
+def apply_rewrites(rewrites, base_url, url):
     for rewrite in rewrites:
         match = rewrite['pattern'].search(url)
         if match:
@@ -54,42 +56,45 @@ def apply_rewrites(rewrites, url):
                 break
             if rewrite.get('gone'):
                 return Codes.GONE
-    return url
+    return urljoin(base_url, url)
 
-def fix_domains(results, url):
+def fix_domains(url):
     if isinstance(url, Codes):
          return url
+    if any(p.search(url) for p in fix_domains.known_good_patterns):
+        return Codes.OK
     url = urlparse(url)
-    if url.netloc in fix_domains.fixes:
-        url = url._replace(netloc=fix_domains.fixes[url.netloc])
-    if not url.netloc:
+    if not url.netloc or (url.netloc in fix_domains.fixes and fix_domains.fixes[url.netloc] is None):
         # We didn't get redirected off-host, so there's nothing to be found
         return Codes.NOT_FOUND
+    if url.netloc in fix_domains.fixes:
+        url = url._replace(netloc=fix_domains.fixes[url.netloc])
     if url.netloc == 'ww1lit.nsms.ox.ac.uk':
         return Codes.OK
     url = urlunparse(url)
-    if url in results['responses']:
-        return Codes(results['responses'][url])
-    if any(p.search(url) for p in fix_domains.known_good_patterns):
-        return Codes.OK
+#    if url in results['responses']:
+#        return Codes(results['responses'][url])
     return url
 fix_domains.fixes = {
     'help.it.ox.ac.uk': 'help-live.nsms.ox.ac.uk',
     'www.it.ox.ac.uk': 'dandy-live.nsms.ox.ac.uk',
+    'www.oucs.ox.ac.uk': None,
 }
 fix_domains.known_good_patterns = map(re.compile, (
     r'^http://ww1lit\.nsms\.ox\.ac\.uk/',
     r'^http://courses\.it\.ox\.ac\.uk/detail/[A-Z\d]{4}$',
+    r'^http://www\.it\.ox\.ac\.uk/services/',
+    r'^http://www\.it\.ox\.ac\.uk/servicestest/',
 ))
 
-def get_paths(logfile):
+def get_paths(logfile, req_field=3, status_field=4):
     reader = csv.reader(logfile, delimiter=' ', doublequote=False, escapechar='\\')
     for i, row in enumerate(reader):
         if (i % 1000000) == 0:
             sys.stderr.write("Line {0}\n".format(i))
-        if row[4] in ('404', '400'):
+        if row[status_field] in ('404', '400'):
             continue
-        req = row[3]
+        req = row[req_field]
         try:
             method, path, proto = req.split(' ')
         except ValueError:
@@ -105,6 +110,11 @@ if __name__ == '__main__':
     import sys
     with open(sys.argv[1]) as htaccess:
         rewrites = parse_htaccess(htaccess)
+    base_url = sys.argv[2]
+
+    req_field = int(sys.argv[3]) if len(sys.argv) > 3 else 3
+    status_field = int(sys.argv[4]) if len(sys.argv) > 4 else 4
+
 
     try:
         results = json.load(open('results'))
@@ -115,12 +125,12 @@ if __name__ == '__main__':
 
     try:
         seen, request_count = set(), 0
-        for path in get_paths(sys.stdin):
+        for path in get_paths(sys.stdin, req_field, status_field):
             if path in seen:
                 continue
             seen.add(path)
-            url = apply_rewrites(rewrites, path)
-            status_or_target = fix_domains(results, url)
+            url = apply_rewrites(rewrites, base_url, path)
+            status_or_target = fix_domains(url)
             if isinstance(status_or_target, basestring):
                 try:
                     status = results['responses'][status_or_target]
