@@ -26,7 +26,6 @@ class Codes(enum.Enum):
 def parse_htaccess(htaccess):
     rewrites = []
     for line in htaccess:
-        line = line.split('#')[0]
         if not line.startswith('RewriteRule '):
             continue
         line = line.split()
@@ -82,7 +81,7 @@ fix_domains.fixes = {
 }
 fix_domains.known_good_patterns = map(re.compile, (
     r'^http://ww1lit\.nsms\.ox\.ac\.uk/',
-    r'^http://courses\.it\.ox\.ac\.uk/detail/[A-Z\d]{4}$',
+    r'^http://courses\.it\.ox\.ac\.uk/detail/[A-Z\d]+$',
     r'^http://www\.it\.ox\.ac\.uk/services/',
     r'^http://www\.it\.ox\.ac\.uk/servicestest/',
 ))
@@ -115,6 +114,7 @@ if __name__ == '__main__':
     req_field = int(sys.argv[3]) if len(sys.argv) > 3 else 3
     status_field = int(sys.argv[4]) if len(sys.argv) > 4 else 4
 
+    writer = csv.writer(sys.stdout)
 
     try:
         results = json.load(open('results'))
@@ -147,7 +147,7 @@ if __name__ == '__main__':
                 status = Codes(status)
             else:
                 status = status_or_target
-            print status.name.ljust(12), path.ljust(100), url
+            writer.writerow((status.name, path, url))
     except BaseException:
         with open('results', 'w') as f:
             json.dump(results, f, indent=2)
