@@ -1,0 +1,4 @@
+# The OUCS website has been decommissioned. All content that used to be here
+# now lives mainly on www.it.ox.ac.uk and help.it.ox.ac.uk.
+User-agent: *
+Disallow: /
