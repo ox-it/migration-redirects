@@ -17,6 +17,14 @@ RewriteRule ^courses/(.*) itlp/courses/$1
 RewriteRule ^ecdl(.*) itlp/ecdl_gen.xml
 RewriteRule ^network/ip.xml network/addresses/
 
+# ITLP Course redirects. These go before the normalization so that they don't get trailing slashes appended
+RewriteRule ^oup/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=302,L]
+RewriteRule ^itlp/courses/oup/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?code=$1&oup=1 [R=302,L]
+RewriteRule ^itlp/courses/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=302,L]
+
+# The OUCS shared stuff is available on active
+RewriteRule ^shared/(.*)$ http://active.oucs.ox.ac.uk/shared/$1 [R=302,L]
+RewriteRule ^teip4/(.*)$ http://active.oucs.ox.ac.uk/shared/teip4/$1 [R=302,L]
 
 # Some URL normalization (remove page fragments; strip /index.xml)
 RewriteRule ^(.+)\.xml.ID=.*$ $1.xml
@@ -41,6 +49,7 @@ RewriteRule ^shop/$ http://www.it.ox.ac.uk/want/shop [R=302,L]
 RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/about/contact [R=302,L]
 RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about/contact [R=302,L]
 RewriteRule ^help/request.xml$ http://help.it.ox.ac.uk/help/request [R=302,L]
+RewriteRule ^itlp/courses.xml$ http://www.it.ox.ac.uk/do/trainingandfacilities/itlpcourses [R=302,L]
 RewriteRule ^itlp/courses/$ http://www.it.ox.ac.uk/do/trainingandfacilities/itlpcourses [R=302,L]
 RewriteRule ^publicity/$ http://www.it.ox.ac.uk/news-events [R=302,L]
 
@@ -68,31 +77,34 @@ RewriteRule ^nsms/no-perms.xml$ - [G]
 RewriteRule ^nsms/services/.*-old.xml$ - [G]
 RewriteRule ^nsms/services/.*thanks.xml$ - [G]
 
+# Teams that are no longer going to be with us.
+RewriteRule ^infodev/$ http://www.it.ox.ac.uk/about/structure/old-teams#infodev [R=302,L]
+RewriteRule ^wdc/$ http://www.it.ox.ac.uk/about/structure/old-teams#wdc [R=302,L]
 
 # World War I Literature site (handle mistypings of one and el)
 RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [R=302,L]
 
 # Courses (copied from previous www.oucs .htaccess, but tweaked to remove /cgi-bin/ where possible)
 RewriteRule ^courses/(.*)$ itlp/$1
-RewriteRule ^oup/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=302,L]
 RewriteRule ^oup http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=summary&oup=1 [R=302,L]
-RewriteRule ^itlp/$ http://courses.it.ox.ac.uk/ [R=302,L]
+RewriteRule ^itlp/$ http://www.it.ox.ac.uk/do/training-and-facilities [R=302,L]
+RewriteRule ^itlp/courses/oup/$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=summary&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/oup/catalogue$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=catalogue&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/oup/atoz$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=atoz&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/oup/summary$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?mode=summary&oup=1 [R=302,L]
-RewriteRule ^itlp/courses/oup/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/cgi-bin/public/courses.pl?code=$1&oup=1 [R=302,L]
 RewriteRule ^itlp/courses/catalogue$ http://courses.it.ox.ac.uk/catalogue [R=302,L]
 RewriteRule ^itlp/courses/atoz$ http://courses.it.ox.ac.uk/atoz [R=302,L]
 RewriteRule ^itlp/courses/summary$ http://courses.it.ox.ac.uk/summary [R=302,L]
 RewriteRule ^itlp/courses/future$ http://courses.it.ox.ac.uk/future [R=302,L]
-RewriteRule ^itlp/courses/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=302,L]
 RewriteCond %{QUERY_STRING} ^(.*)$
-RewriteRule ^itlp/courses/showcart.pl$ http://courses.it.ox.ac.uk/showcart?%1 [R=302,L,NE,QSA]
+RewriteRule ^itlp/courses/showcart.pl$ http://courses.it.ox.ac.uk/showcart?$1 [R=302,L,NE,QSA]
 RewriteCond %{QUERY_STRING} ^(.*)$
-RewriteRule ^itlp/courses/mybook.pl$ http://courses.it.ox.ac.uk/mybook?%1 [R=302,L,NE,QSA]
-RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?%1 [R=302,L]
+RewriteRule ^itlp/courses/mybook.pl$ http://courses.it.ox.ac.uk/mybook?$1 [R=302,L,NE,QSA]
+RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?$1 [R=302,L]
 # all the ITLP rewrites - pages
-RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtobook.xml%1 [R=302,L]
+RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtobook.xml [R=302,L]
+RewriteRule ^itlp/courses/oup/howtocancel.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtocancel.xml [R=302,L]
+RewriteRule ^itlp/about-us.xml$ http://www.it.ox.ac.uk/do/training-and-facilities/contact [R=302,L]
 
 # OxPoints, starting with stuff we know we've gotten rid of
 RewriteRule ^oxpoints/(oxpoints|oxworld).xml$ - [G]
@@ -111,7 +123,18 @@ RewriteRule ^oxpoints/images/(icons|typeicons|typeicons2)/(.*)$ http://active.ou
 
 
 # TODO: thamessuite down
+RewriteRule ^thamessuite/.*$ http://www.it.ox.ac.uk/thames-suite [R=302,L]
 
+RewriteRule ^ltg/projects/clic/(.*)$ http://projects.oucs.ox.ac.uk/clic/$1 [R=302,L]
+RewriteRule ^ltg/ http://dandy-live.nsms.ox.ac.uk/do/teaching-and-learning [R=302,L]
+
+# Stuff that's gone
+RewriteRule ^ebook/ - [G]
+RewriteRule ^oxcri/ - [G]
+RewriteRule ^logo/ - [G]
+RewriteRule ^about/points.xml$ - [G]
+RewriteRule ^(cdwriting|portal|cdcopying|cms|athens)/ - [G]
+RewriteRule ^dead.xml$ - [G]
 
 # Catch-alls for the help site
 RewriteRule ^(.+)\.xml(.ID=.*)?$ http://help.it.ox.ac.uk/$1 [R=307,L]
