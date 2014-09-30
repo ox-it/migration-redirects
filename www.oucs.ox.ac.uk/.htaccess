@@ -97,10 +97,10 @@ RewriteRule ^itlp/courses/atoz$ http://courses.it.ox.ac.uk/atoz [R=302,L]
 RewriteRule ^itlp/courses/summary$ http://courses.it.ox.ac.uk/summary [R=302,L]
 RewriteRule ^itlp/courses/future$ http://courses.it.ox.ac.uk/future [R=302,L]
 RewriteCond %{QUERY_STRING} ^(.*)$
-RewriteRule ^itlp/courses/showcart.pl$ http://courses.it.ox.ac.uk/showcart?$1 [R=302,L,NE,QSA]
+RewriteRule ^itlp/courses/showcart.pl$ http://courses.it.ox.ac.uk/showcart?%1 [R=302,L,NE,QSA]
 RewriteCond %{QUERY_STRING} ^(.*)$
-RewriteRule ^itlp/courses/mybook.pl$ http://courses.it.ox.ac.uk/mybook?$1 [R=302,L,NE,QSA]
-RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?$1 [R=302,L]
+RewriteRule ^itlp/courses/mybook.pl$ http://courses.it.ox.ac.uk/mybook?%1 [R=302,L,NE,QSA]
+RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?%1 [R=302,L]
 # all the ITLP rewrites - pages
 RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtobook.xml [R=302,L]
 RewriteRule ^itlp/courses/oup/howtocancel.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtocancel.xml [R=302,L]
