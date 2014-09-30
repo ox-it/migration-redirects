@@ -6,6 +6,8 @@ RewriteRule ^oxford/rules/proxy.xml$ http://www.it.ox.ac.uk/policies-and-guideli
 RewriteRule ^oxford/rules/p2p.xml$ http://www.it.ox.ac.uk/policies-and-guidelines/peer-to-peer-resource-sharing [R=302,L]
 RewriteRule ^oxford/disposal/(index.xml)?$ http://www.it.ox.ac.uk/policies-and-guidelines/computer-disposal [R=302,L]
 
+RewriteRule ^oxford/rules/?$ http://www.it.ox.ac.uk/policies-and-guidelines [R=302,L]
+
 RewriteRule ^team/services/software/oxfordinstaller.xml	http://help.it.ox.ac.uk/connect/apps-installer
 RewriteRule ^team/services/software/applicationslist-win7.xml http://help.it.ox.ac.uk/connect/apps-win-7
 
