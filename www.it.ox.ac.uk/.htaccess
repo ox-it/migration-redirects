@@ -1,6 +1,7 @@
 RewriteEngine on
 
 RewriteRule ^index.html$ "" [R=302,L]
+RewriteRule ^news/?$ news-events [R=302,L]
 RewriteRule ^publicity/?$ news-events [R=302,L]
 RewriteRule ^publicity/webauth/?$ - [G]
 RewriteRule ^about/contactus/?$ about [R=302,L]
@@ -12,10 +13,27 @@ RewriteRule ^about/reports/itstrategy/?$ policies-and-guidelines/it-strategic-pl
 RewriteRule ^about/reports/itstrategy/itstrategicplan/?$ policies-and-guidelines/it-strategic-plan-2013-2018 [R=302,L]
 RewriteRule ^about/reports/itstrategy/itstrategyreport/?$ policies-and-guidelines/it-strategic-plan-2013-2018 [R=302,L]
 RewriteRule ^about/newsletter/?$ newsletters [R=302,L]
-RewriteRule ^about/newsletter/(.*)[^/]/?$ newsletters/$1 [R=302,L]
+RewriteRule ^about/newsletter/[^/]+/?$ newsletters/$1 [R=302,L]
 RewriteRule ^about/org_structure/?$ about/structure [R=302,L]
 RewriteRule ^about/travel/?$ about/offices [R=302,L]
+RewriteRule ^projects/?$ do/projects-and-programmes [R=302,L]
+RewriteRule ^legal/privacy/?$ http://www.admin.ox.ac.uk/councilsec/compliance/dataprotection/privacypolicy/ [R=302,L]
+RewriteRule ^legal/?$ http://www.ox.ac.uk/legal [R=302,L]
+RewriteRule ^legal/cookies/?$ cookies [R=302,L]
 
+RewriteRule ^infosec/?$ http://help.it.ox.ac.uk/service/information-security [R=302,L]
+RewriteRule ^infosec/wde/?$ http://help.it.ox.ac.uk/wde/index [R=302,L]
+RewriteRule ^infosec/protectyourself/?$ http://help.it.ox.ac.uk/infosec/protectyourself/index [R=302,L]
+RewriteRule ^infosec/protectyourself/([^/]+)/?$ http://help.it.ox.ac.uk/infosec/protectyourself/$1/index [R=302,L]
+RewriteRule ^infosec/module/?$ https://weblearn.ox.ac.uk/access/content/group/7aa8759d-9745-4e33-8619-6df51bcd6a88/gomo/gomo/index.htm [R=302,L]
+
+RewriteRule ^help/?$ do/help-and-advice [R=302,L]
+RewriteRule ^help/gettinghelp/?$ want/help [R=302,L]
+RewriteRule ^help/freqservices/?$ http://help.it.ox.ac.uk/ [R=302,L]
+
+RewriteRule ^courses/roomhire/?$ do/training-and-facilities [R=302,L]
+
+RewriteRule ^aatc/?$ do/training-and-facilities [R=302,L]
 RewriteRule ^media/?$ http://help.it.ox.ac.uk/media/index [R=302,L]
 RewriteRule ^shop/?$ http://help.it.ox.ac.uk/shop/index [R=302,L]
 RewriteRule ^nexus/?$ http://help.it.ox.ac.uk/nexus/index [R=302,L]
