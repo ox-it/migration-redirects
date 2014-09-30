@@ -28,7 +28,7 @@ RewriteRule ^teip4/(.*)$ http://active.oucs.ox.ac.uk/shared/teip4/$1 [R=302,L]
 
 # Some URL normalization (remove page fragments; strip /index.xml)
 RewriteRule ^(.+)\.xml.ID=.*$ $1.xml
-RewriteRule ^((.*/)?)([^./]+)$ $1$3/
+RewriteRule ^(.*/)?([^./]+)$ $1$2/ [R=302,L]
 RewriteRule ^(.+)/index\.xml$ $1/
 RewriteRule ^(.+)//(.*) $1/$2
 
@@ -36,6 +36,9 @@ RewriteRule ^about/$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^about/mission.xml$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^about/travel\.xml$ http://www.it.ox.ac.uk/about/offices [R=302,L]
 RewriteRule ^jobs/$ http://www.it.ox.ac.uk/about/jobs [R=302,L]
+
+RewriteRule ^rss/vacancies.rss$ https://data.ox.ac.uk/feeds/all-vacancies/31337175.rss [R=302,L]
+RewriteRule ^rss/allnews.rss$ http://www.it.ox.ac.uk/news/rss.xml [R=302,L]
 
 # These are in order of popularity (by non-bot hits)
 RewriteRule ^nexus/email/$ http://www.it.ox.ac.uk/want/get-started/email [R=302,L]
@@ -49,12 +52,13 @@ RewriteRule ^shop/$ http://www.it.ox.ac.uk/want/shop [R=302,L]
 RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/about/contact [R=302,L]
 RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about/contact [R=302,L]
 RewriteRule ^help/request.xml$ http://help.it.ox.ac.uk/help/request [R=302,L]
-RewriteRule ^itlp/courses.xml$ http://www.it.ox.ac.uk/do/trainingandfacilities/itlpcourses [R=302,L]
-RewriteRule ^itlp/courses/$ http://www.it.ox.ac.uk/do/trainingandfacilities/itlpcourses [R=302,L]
+RewriteRule ^itlp/courses.xml$ http://www.it.ox.ac.uk/do/training-and-facilities/itlp-courses [R=302,L]
+RewriteRule ^itlp/courses/$ http://www.it.ox.ac.uk/do/training-and-facilities/itlp-courses [R=302,L]
+RewriteRule ^itlp/closedcourses/$ http://www.it.ox.ac.uk/do/training-and-facilities/itlp-closed-courses [R=302,L]
+RewriteRule ^itlp/closedcourses/enquiry.xml$ http://www.it.ox.ac.uk/closed-courses-enquiry-form [R=302,L]
 RewriteRule ^publicity/$ http://www.it.ox.ac.uk/news-events [R=302,L]
 
 # NSMS
-RewriteRule ^nsms/$ http://www.it.ox.ac.uk/nsms [R=302,L]
 RewriteRule ^nsms/charges/costs.xml$ http://www.it.ox.ac.uk/nsms/charges [R=302,L]
 RewriteRule ^nsms/services/$ http://www.it.ox.ac.uk/nsms [R=302,L]
 RewriteRule ^nsms/services/webhosting.xml$ http://www.it.ox.ac.uk/nsms/webhosting [R=302,L]
@@ -76,6 +80,7 @@ RewriteRule ^nsms/customers/$ http://www.it.ox.ac.uk/nsms/customers [R=302,L]
 RewriteRule ^nsms/no-perms.xml$ - [G]
 RewriteRule ^nsms/services/.*-old.xml$ - [G]
 RewriteRule ^nsms/services/.*thanks.xml$ - [G]
+RewriteRule ^nsms/ http://www.it.ox.ac.uk/nsms [R=302,L]
 
 # Teams that are no longer going to be with us.
 RewriteRule ^infodev/$ http://www.it.ox.ac.uk/about/structure/old-teams#infodev [R=302,L]
@@ -106,6 +111,43 @@ RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp
 RewriteRule ^itlp/courses/oup/howtocancel.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtocancel.xml [R=302,L]
 RewriteRule ^itlp/about-us.xml$ http://www.it.ox.ac.uk/do/training-and-facilities/contact [R=302,L]
 
+# today's courses
+RewriteRule ^rss/courses/today.rss$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?range=today [R=302,L,QSA]
+RewriteRule ^rss/courses/today.ics$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=ics&range=today [R=302,L,QSA]
+RewriteRule ^rss/courses/today.xml$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=rss2&range=today [R=302,L,QSA]
+
+# by presentation
+RewriteRule ^rss/courses/presentation/([0-9]+).rss$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?pid=$1 [R=302,L,QSA]
+RewriteRule ^rss/courses/presentation/([0-9]+).ics$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=ics&pid=$1 [R=302,L,QSA]
+RewriteRule ^rss/courses/presentation/([0-9]+).xml$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=rss2&pid=$1 [R=302,L,QSA]
+
+# by code(s)
+RewriteRule ^rss/courses/code/([A-Z0-9\|]+).rss$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?code=$1 [R=302,L,QSA]
+RewriteRule ^rss/courses/code/([A-Z0-9\|]+).ics$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=ics&code=$1 [R=302,L,QSA]
+RewriteRule ^rss/courses/code/([A-Z0-9\|]+).xml$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=rss2&code=$1 [R=302,L,QSA]
+
+# all courses
+RewriteRule ^rss/courses(-atom)?.(rss|ics|xml)$ http://courses.it.ox.ac.uk/courses.$2 [R=302,L,QSA]
+
+# by presentation, for backward compatibility
+RewriteRule ^rss/courses/([0-9]+).rss http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?pid=$1 [R=302,L]
+RewriteRule ^rss/courses/([0-9]+).ics http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=ics&pid=$1 [R=302,L]
+RewriteRule ^rss/courses/([0-9]+).xml http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=rss2&pid=$1 [R=302,L]
+
+# ics by presentation, for backward compatibility
+RewriteRule ^rss/([^\.]+).ics$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?style=ics&pid=$1 [R=302,L]
+
+RewriteRule ^rss/its3.rss$ http://rss.oucs.ox.ac.uk/oucs/its3-news/rss10.xml [L,R]
+RewriteRule ^rss/ict-news.rss$ http://rss.oucs.ox.ac.uk/ict/ict-news/rss10.xml [L,R]
+RewriteRule ^rss/itservnews.rss$ "http://rss.oucs.ox.ac.uk/itserv/news/rss20.xml?all_string=all" [L,R]
+RewriteRule ^rss/news.rss$ http://rss.oucs.ox.ac.uk/oucs/news/rss10.xml [L,R]
+RewriteRule ^rss/helpcentre.rss$ http://rss.oucs.ox.ac.uk/oucs/helpcentre/rss10.xml [L,R]
+RewriteRule ^rss/webmail-normal.rss$ http://rss.oucs.ox.ac.uk/oucs/webmail-normal/rss10.xml [L,R]
+RewriteRule ^rss/webmail-news.rss$ http://rss.oucs.ox.ac.uk/oucs/webmail-news/rss10.xml [L,R]
+RewriteRule ^rss/webmail-urgent.rss$ http://rss.oucs.ox.ac.uk/oucs/webmail-news-urgent/rss10.xml [L,R]
+RewriteRule ^rss/services.rss$ http://rss.oucs.ox.ac.uk/oucs/services/rss10.xml [L,R]
+
+
 # OxPoints, starting with stuff we know we've gotten rid of
 RewriteRule ^oxpoints/(oxpoints|oxworld).xml$ - [G]
 RewriteRule ^oxpoints/javascript.xml$ - [G]
@@ -126,7 +168,11 @@ RewriteRule ^oxpoints/images/(icons|typeicons|typeicons2)/(.*)$ http://active.ou
 RewriteRule ^thamessuite/.*$ http://www.it.ox.ac.uk/thames-suite [R=302,L]
 
 RewriteRule ^ltg/projects/clic/(.*)$ http://projects.oucs.ox.ac.uk/clic/$1 [R=302,L]
-RewriteRule ^ltg/ http://dandy-live.nsms.ox.ac.uk/do/teaching-and-learning [R=302,L]
+RewriteRule ^ltg/ http://www.it.ox.ac.uk/do/teaching-and-learning [R=302,L]
+RewriteRule ^datacentres/ http://www.it.ox.ac.uk/data-centres [R=302,L]
+RewriteRule ^internal/annrep/ http://www.it.ox.ac.uk/about/reports [R=302,L]
+
+RewriteRule ^favicon.ico$ http://www.it.ox.ac.uk/sites/dandy/themes/dandy/favicon.ico [R=302,L]
 
 # Stuff that's gone
 RewriteRule ^ebook/ - [G]
