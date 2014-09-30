@@ -158,3 +158,5 @@ RewriteRule ^([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/site
 RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3_$4.$5 [R=302,L]
 RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3_$4_$5.$6 [R=302,L]
 RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+).(jpg|png|gif)$ http://help.it.ox.ac.uk/sites/ithelp/files/images/$1_$2_$3_$4_$5_$6.$7 [R=302,L]
+
+ErrorDocument 410 410.html
