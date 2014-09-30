@@ -26,10 +26,15 @@ RewriteRule ^itlp/courses/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/
 RewriteRule ^shared/(.*)$ http://active.oucs.ox.ac.uk/shared/$1 [R=302,L]
 RewriteRule ^teip4/(.*)$ http://active.oucs.ox.ac.uk/shared/teip4/$1 [R=302,L]
 
+# World War I Literature site (handle mistypings of one and el) also, don't normalize
+RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [P,L]
+
+RewriteRule ^network/restricted/hosts.ox.ac.uk$ https://networks.oucs.ox.ac.uk/dns/hosts.ox.ac.uk [R=302,L]
+
 # Some URL normalization (remove page fragments; strip /index.xml)
 RewriteRule ^(.+)\.xml.ID=.*$ $1.xml
 RewriteRule ^(.*/)?([^./]+)$ $1$2/ [R=302,L]
-RewriteRule ^(.+)/index\.xml$ $1/
+RewriteRule ^(.+)/index\.xml$ $1/ [R=302,L]
 RewriteRule ^(.+)//(.*) $1/$2
 
 RewriteRule ^about/$ http://www.it.ox.ac.uk/about [R=302,L]
@@ -86,8 +91,6 @@ RewriteRule ^nsms/ http://www.it.ox.ac.uk/nsms [R=302,L]
 RewriteRule ^infodev/$ http://www.it.ox.ac.uk/about/structure/old-teams#infodev [R=302,L]
 RewriteRule ^wdc/$ http://www.it.ox.ac.uk/about/structure/old-teams#wdc [R=302,L]
 
-# World War I Literature site (handle mistypings of one and el)
-RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [R=302,L]
 
 # Courses (copied from previous www.oucs .htaccess, but tweaked to remove /cgi-bin/ where possible)
 RewriteRule ^courses/(.*)$ itlp/$1
@@ -162,6 +165,8 @@ RewriteRule ^oxpoints/(autoSuggest.css|jquery.autoSuggest.js)$ http://active.ouc
 RewriteRule ^oxpoints/(oxpointsMap(_v3)?.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
 RewriteRule ^oxpoints/images/(icons|typeicons|typeicons2)/(.*)$ http://active.oucs.ox.ac.uk/oxpoints/images/$1/$2 [R=302,L]
 
+# This is still needed, so we'll reverse-proxy it from active
+RewriteRule ^helpcentre/hckiosk/(.*)$ http://active.oucs.ox.ac.uk/helpcentre/hckiosk/$1 [P,L]
 
 
 # TODO: thamessuite down
