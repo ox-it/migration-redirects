@@ -1,0 +1,7 @@
+RewriteRule ^welcometoit/.*$ http://www.it.ox.ac.uk/want/get-started [R=302,L]
+
+RewriteRule ^itlp/?$ http://courses.it.ox.ac.uk/ [R=302,L]
+RewriteRule ^itlp/index$ http://courses.it.ox.ac.uk/ [R=302,L]
+RewriteRule ^itlp/courses/summary$ http://courses.it.ox.ac.uk/summary [R=302,L]
+RewriteRule ^itlp/courses/atoz$ http://courses.it.ox.ac.uk/atoz [R=302,L]
+RewriteRule ^itlp/courses/detail/([A-Z0-9]+)$ http://courses.it.ox.ac.uk/detail/$1 [R=302,L]
