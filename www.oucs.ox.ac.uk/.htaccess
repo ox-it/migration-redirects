@@ -4,6 +4,9 @@ RewriteBase /
 # OUCS homepage → IT Services homepage
 RewriteRule ^(index\.xml)?$ http://www.it.ox.ac.uk/ [R=302,L]
 
+# Nexus quota warning email
+RewriteRule ^email/quota/warnings.xml http://help.it.ox.ac.uk/email/quota/warnings [R=302,L]
+
 # Existing redirects people still rely on
 RewriteRule ^help/unhappy.xsp$ help/request.xml
 RewriteRule ^email/mobiles/(.*) nexus/mobile/index.xml
@@ -42,6 +45,8 @@ RewriteRule ^about/mission.xml$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^about/travel\.xml$ http://www.it.ox.ac.uk/about/offices [R=302,L]
 RewriteRule ^jobs/$ http://www.it.ox.ac.uk/about/jobs [R=302,L]
 
+RewriteRule ^web/userpages/$ http://help.it.ox.ac.uk/web/personalwebpages/personalguide [R=302,L]
+
 RewriteRule ^rss/vacancies.rss$ https://data.ox.ac.uk/feeds/all-vacancies/31337175.rss [R=302,L]
 RewriteRule ^rss/allnews.rss$ http://www.it.ox.ac.uk/news/rss.xml [R=302,L]
 
@@ -54,13 +59,14 @@ RewriteRule ^welcometoit/.*$ http://www.it.ox.ac.uk/want/get-started [R=302,L]
 RewriteRule ^its3/$ http://www.it.ox.ac.uk/its3 [R=302,L]
 RewriteRule ^shop/$ http://www.it.ox.ac.uk/want/shop [R=302,L]
 # /itlp ?
-RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/about/contact [R=302,L]
-RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about/contact [R=302,L]
+RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/contact-form [R=302,L]
+RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^help/request.xml$ http://help.it.ox.ac.uk/help/request [R=302,L]
 RewriteRule ^itlp/courses.xml$ http://www.it.ox.ac.uk/do/training-and-facilities/itlp-courses [R=302,L]
 RewriteRule ^itlp/courses/$ http://www.it.ox.ac.uk/do/training-and-facilities/itlp-courses [R=302,L]
 RewriteRule ^itlp/closedcourses/$ http://www.it.ox.ac.uk/do/training-and-facilities/itlp-closed-courses [R=302,L]
 RewriteRule ^itlp/closedcourses/enquiry.xml$ http://www.it.ox.ac.uk/closed-courses-enquiry-form [R=302,L]
+RewriteRule ^itlp/courses/email_list.xml$ http://www.it.ox.ac.uk/itlp-mailing-list [R=302,L]
 RewriteRule ^publicity/$ http://www.it.ox.ac.uk/news-events [R=302,L]
 
 # NSMS
@@ -113,6 +119,7 @@ RewriteRule ^itlp/courses/myaccount$ http://courses.it.ox.ac.uk/mycourses?%1 [R=
 RewriteRule ^itlp/courses/oup/howtobook.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtobook.xml [R=302,L]
 RewriteRule ^itlp/courses/oup/howtocancel.xml(.*)$ http://courses.it.ox.ac.uk/itlp/oup/howtocancel.xml [R=302,L]
 RewriteRule ^itlp/about-us.xml$ http://www.it.ox.ac.uk/do/training-and-facilities/contact [R=302,L]
+RewriteRule ^itlp/forms/contact.xml$ http://www.it.ox.ac.uk/do/training-and-facilities/contact [R=302,L]
 
 # today's courses
 RewriteRule ^rss/courses/today.rss$ http://courses.it.ox.ac.uk/cgi-bin/public/courses-atom.cgi?range=today [R=302,L,QSA]
@@ -161,9 +168,9 @@ RewriteRule ^oxpoints/demo/.*$ - [G]
 RewriteRule ^oxpoints/(balliol|colleges|libraries)-demo.html$ - [G]
 RewriteRule ^oxpoints/images/(offices|counsel|collegepictures|appsoc|bwcrests)/(.*)$ - [G]
 # And these things have been moved to active.oucs
-RewriteRule ^oxpoints/(autoSuggest.css|jquery.autoSuggest.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
-RewriteRule ^oxpoints/(oxpointsMap(_v3)?.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [R=302,L]
-RewriteRule ^oxpoints/images/(icons|typeicons|typeicons2)/(.*)$ http://active.oucs.ox.ac.uk/oxpoints/images/$1/$2 [R=302,L]
+RewriteRule ^oxpoints/(autoSuggest.css|jquery.autoSuggest.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [P,L]
+RewriteRule ^oxpoints/(oxpointsMap(_v3)?.js)$ http://active.oucs.ox.ac.uk/oxpoints/$1 [P,L]
+RewriteRule ^oxpoints/images/(icons|typeicons|typeicons2)/(.*)$ http://active.oucs.ox.ac.uk/oxpoints/images/$1/$2 [P,L]
 
 # This is still needed, so we'll reverse-proxy it from active
 RewriteRule ^helpcentre/hckiosk/(.*)$ http://active.oucs.ox.ac.uk/helpcentre/hckiosk/$1 [P,L]
