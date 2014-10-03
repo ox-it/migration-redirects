@@ -4,9 +4,6 @@ RewriteBase /
 # OUCS homepage → IT Services homepage
 RewriteRule ^(index\.xml)?$ http://www.it.ox.ac.uk/ [R=302,L]
 
-# Nexus quota warning email
-RewriteRule ^email/quota/warnings.xml http://help.it.ox.ac.uk/email/quota/warnings [R=302,L]
-
 # Existing redirects people still rely on
 RewriteRule ^help/unhappy.xsp$ help/request.xml
 RewriteRule ^email/mobiles/(.*) nexus/mobile/index.xml
@@ -35,10 +32,22 @@ RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [P,L]
 RewriteRule ^network/restricted/hosts.ox.ac.uk$ https://networks.oucs.ox.ac.uk/dns/hosts.ox.ac.uk [R=302,L]
 
 # Some URL normalization (remove page fragments; strip /index.xml)
-RewriteRule ^(.+)\.xml.ID=.*$ $1.xml
-RewriteRule ^(.*/)?([^./]+)$ $1$2/ [R=302,L]
-RewriteRule ^(.+)/index\.xml$ $1/ [R=302,L]
-RewriteRule ^(.+)//(.*) $1/$2
+
+# Remove the ID and put it in an environment variable
+#   either as a query string ...
+RewriteCond %{QUERY_STRING} ID=(body.1_)?(.*)
+RewriteRule (.*) $1? [DPI,E=ID:%2]
+#   ... or as a part of the path
+RewriteRule ^(.+)\.xml.ID=(body.1_)?(.+)$ $1.xml [DPI,E=ID:$3]
+
+# Some fragments have changed:
+#   RT#2533632 ('forgotten' link on webauth login page)
+RewriteCond %{ENV:ID} ^div.6$
+RewriteRule ^webauth/oxfordusername.xml$ - [E=ID:forgotten]
+
+RewriteRule ^(.*/)?([^./]+)$ $1$2/ [DPI]
+RewriteRule ^(.+)/index\.xml$ $1/ [DPI]
+RewriteRule ^(.+)//(.*) $1/$2 [DPI]
 
 RewriteRule ^about/$ http://www.it.ox.ac.uk/about [R=302,L]
 RewriteRule ^about/mission.xml$ http://www.it.ox.ac.uk/about [R=302,L]
@@ -195,11 +204,18 @@ RewriteRule ^(cdwriting|portal|cdcopying|cms|athens)/ - [G]
 RewriteRule ^dead.xml$ - [G]
 
 # Catch-alls for the help site
-RewriteRule ^(.+)\.xml(.ID=.*)?$ http://help.it.ox.ac.uk/$1 [R=307,L]
-RewriteRule ^(.+)/$ http://help.it.ox.ac.uk/$1/index [R=307,L]
+RewriteRule ^(.+)\.xml$ http://help.it.ox.ac.uk/$1 [E=TOHELPSITE:Y]
+RewriteRule ^(.+)/$ http://help.it.ox.ac.uk/$1/index [E=TOHELPSITE:Y]
+
+# Append the fragment if we picked one up from earlier
+RewriteCond %{ENV:ID} (.+)
+RewriteRule (.*) $1#%1 [NE]
+
+RewriteCOnd %{ENV:TOHELPSITE} ^Y$
+RewriteRule .* - [R=307,L]
 
 # "images/" has been removed from names of files
-RewriteRule (^|.*/)images/(.*)$ $1$2
+RewriteRule (^|.*/)images/(.*)$ $1$2 [DPI,R]
 
 # Resources moved to the help site
 RewriteRule ^([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1.$2 [R=302,L]
