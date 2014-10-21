@@ -63,10 +63,12 @@ RewriteRule ^rss/allnews.rss$ http://www.it.ox.ac.uk/news/rss.xml [R=302,L]
 RewriteRule ^nexus/email/$ http://www.it.ox.ac.uk/want/get-started/email [R=302,L]
 RewriteRule ^oxford/username$ http://www.it.ox.ac.uk/want/get-started/account [R=302,L]
 RewriteRule ^webauth/oxfordusername$ http://www.it.ox.ac.uk/want/get-started/account [R=302,L]
+RewriteRule ^registration/oxford/forgottenpassword.xml$ http://help.it.ox.ac.uk/registration/index#passwords.ox [R=302,NE,L]
 RewriteRule ^help/$ http://www.it.ox.ac.uk/want/help [R=302,L]
 RewriteRule ^welcometoit/.*$ http://www.it.ox.ac.uk/want/get-started [R=302,L]
 RewriteRule ^its3/$ http://www.it.ox.ac.uk/its3 [R=302,L]
 RewriteRule ^shop/$ http://www.it.ox.ac.uk/want/shop [R=302,L]
+RewriteRule ^network/security/ISBP/toolkit/ http://www.it.ox.ac.uk/policies-and-guidelines/is-toolkit/ [R=302,L]
 # /itlp ?
 RewriteRule ^cgi-bin/feedback.pl$ http://www.it.ox.ac.uk/contact-form [R=302,L]
 RewriteRule ^about/contact.xml$ http://www.it.ox.ac.uk/about [R=302,L]
@@ -77,6 +79,12 @@ RewriteRule ^itlp/closedcourses/$ http://www.it.ox.ac.uk/do/training-and-facilit
 RewriteRule ^itlp/closedcourses/enquiry.xml$ http://www.it.ox.ac.uk/closed-courses-enquiry-form [R=302,L]
 RewriteRule ^itlp/courses/email_list.xml$ http://www.it.ox.ac.uk/itlp-mailing-list [R=302,L]
 RewriteRule ^publicity/$ http://www.it.ox.ac.uk/news-events [R=302,L]
+RewriteRule ^oxitems https://rss.oucs.ox.ac.uk/oxonly/oxitems/ [R=302,L]
+RewriteRule ^its3/oxonly/ITRM_98_Shared_Computer_Memo_1_Aug_2013.pdf$ http://www.it.ox.ac.uk/sites/dandy/files/oxfordonly/ITRM_98_Shared_Computer_Memo_1_Aug_2013.pdf [R=302,L]
+
+# For the GSA frontends
+RewriteRule ^googlesearch/(google.css|radcliffe.jpg)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1 [R=302,L]
+RewriteRule ^images/crest.jpg$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/crest.jpg [R=302,L]
 
 # NSMS
 RewriteRule ^nsms/charges/costs.xml$ http://www.it.ox.ac.uk/nsms/charges [R=302,L]
@@ -103,8 +111,8 @@ RewriteRule ^nsms/services/.*thanks.xml$ - [G]
 RewriteRule ^nsms/ http://www.it.ox.ac.uk/nsms [R=302,L]
 
 # Teams that are no longer going to be with us.
-RewriteRule ^infodev/$ http://www.it.ox.ac.uk/about/structure/old-teams#infodev [R=302,L]
-RewriteRule ^wdc/$ http://www.it.ox.ac.uk/about/structure/old-teams#wdc [R=302,L]
+RewriteRule ^infodev/$ http://www.it.ox.ac.uk/about/structure/old-teams#infodev [R=302,NE,L]
+RewriteRule ^wdc/$ http://www.it.ox.ac.uk/about/structure/old-teams#wdc [R=302,NE,L]
 
 
 # Courses (copied from previous www.oucs .htaccess, but tweaked to remove /cgi-bin/ where possible)
@@ -215,7 +223,7 @@ RewriteCOnd %{ENV:TOHELPSITE} ^Y$
 RewriteRule .* - [R=307,L]
 
 # "images/" has been removed from names of files
-RewriteRule (^|.*/)images/(.*)$ $1$2 [DPI,R]
+RewriteRule (^|.*/)images/(.*)$ $1$2 [DPI]
 
 # Resources moved to the help site
 RewriteRule ^([^/]+).(pdf|doc|docx)$ http://help.it.ox.ac.uk/sites/ithelp/files/resources/$1.$2 [R=302,L]
