@@ -27,7 +27,8 @@ RewriteRule ^shared/(.*)$ http://active.oucs.ox.ac.uk/shared/$1 [R=302,L]
 RewriteRule ^teip4/(.*)$ http://active.oucs.ox.ac.uk/shared/teip4/$1 [R=302,L]
 
 # World War I Literature site (handle mistypings of one and el) also, don't normalize
-RewriteRule ^ww[1l][1l]it(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [P,L]
+RewriteRule ^ww(11|ll|l1)it(.*)$ /ww1lit$2 [R=302,L]
+RewriteRule ^ww1lit(.*)$ http://ww1lit.nsms.ox.ac.uk/ww1lit$1 [P,L]
 
 RewriteRule ^network/restricted/hosts.ox.ac.uk$ https://networks.oucs.ox.ac.uk/dns/hosts.ox.ac.uk [R=302,L]
 
@@ -219,7 +220,7 @@ RewriteRule ^(.+)/$ http://help.it.ox.ac.uk/$1/index [E=TOHELPSITE:Y]
 RewriteCond %{ENV:ID} (.+)
 RewriteRule (.*) $1#%1 [NE]
 
-RewriteCOnd %{ENV:TOHELPSITE} ^Y$
+RewriteCond %{ENV:TOHELPSITE} ^Y$
 RewriteRule .* - [R=307,L]
 
 # "images/" has been removed from names of files
